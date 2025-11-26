@@ -39,9 +39,6 @@ app.get(/.*/, (req, res) => {
   res.sendFile(path.join(distPath, "index.html"));
 });
 
-  res.sendFile(path.join(distPath, "index.html"));
-});
-
 // Start server
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
