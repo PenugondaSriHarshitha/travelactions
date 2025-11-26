@@ -15,7 +15,8 @@ import packageImg from "../images/package.png";
 import stayImg from "../images/stay.png";
 import defaultThumb from "../images/default-thumb.png";
 
-const BACKEND_BASE = "http://localhost:8084"; // backend base URL
+const BACKEND_BASE = import.meta.env.VITE_BACKEND_URL;
+
 
 const DEFAULT_CARD_EXAMPLES = [
   { id: "card_1", brand: "Visa", last4: "4242", name: "Bhavya C", expiry: "12/26" },
