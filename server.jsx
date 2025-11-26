@@ -3,11 +3,21 @@ import express from "express";
 import bodyParser from "body-parser";
 import OpenAI from "openai";
 import cors from "cors";
+import path from "path";
+import { fileURLToPath } from "url";
 
 const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 
+// Serve React build (dist folder)
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const distPath = path.join(__dirname, "dist");
+
+app.use(express.static(distPath));
+
+// --- API ROUTE ---
 const client = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
 app.post("/api/support-chat", async (req, res) => {
@@ -24,4 +34,13 @@ app.post("/api/support-chat", async (req, res) => {
   }
 });
 
-app.listen(8080, () => console.log("✅ Support backend running on http://localhost:8080"));
+// Fallback for React Router (SPA)
+app.get("*", (req, res) => {
+  res.sendFile(path.join(distPath, "index.html"));
+});
+
+// Start server
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`🚀 Server running on http://localhost:${PORT}`);
+});
