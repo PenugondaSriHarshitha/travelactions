@@ -6,5 +6,5 @@ export default defineConfig({
   server: {
     port: 5173,
   },
-  base: "/travelactions/",   // ✅ VERY IMPORTANT for GitHub Pages
+  base: "/travelactions/",  // 🔥 REQUIRED for GitHub Pages
 })
