@@ -2,17 +2,20 @@
 import React, { useState, useMemo, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import "./LocalGuides.css";
-const API_BASE = `${import.meta.env.VITE_BACKEND_URL}/api/guides`;
+function getBackendURL() {
+  const port = window.location.port;
 
+  // ⭐ Kubernetes
+  if (port === "32000") return "http://localhost:32001";
 
+  // ⭐ Docker
+  if (port === "3000") return "http://localhost:8084";
 
-/**
- * Full LocalGuides component
- * - Unique seeded placeholder images per-card (picsum)
- * - Reduced default dataset (12)
- * - Full: submit/pending/approve/reject, delete+undo, toasts
- * - Navigation slide-over with embed map + open-in-app/web links
- */
+  // ⭐ Vite (local dev)
+  return import.meta.env.VITE_BACKEND_URL || "http://localhost:8084";
+}
+
+const API_BASE = `${getBackendURL()}/api/guides`;
 
 // small curated base set (used to expand/clones)
 const baseSamples = [
