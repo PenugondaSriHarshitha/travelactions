@@ -3,8 +3,25 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 
-const API_BASE = `${import.meta.env.VITE_BACKEND_URL}/api/saved`;
+const API_BASE = `${BACKEND_BASE}/api/saved`;
 
+
+// ---------------- Backend URL Resolver ----------------
+function getBackendURL() {
+  const port = window.location.port;
+
+  // ⭐ Kubernetes frontend → backend
+  if (port === "32000") return "http://localhost:32001";
+
+  // ⭐ Docker frontend → backend
+  if (port === "3000") return "http://localhost:8084";
+
+  // ⭐ Vite development (5173)
+  return import.meta.env.VITE_BACKEND_URL || "http://localhost:8084";
+}
+
+const BACKEND_BASE = getBackendURL();
+// -------------------------------------------------------
 
 
 export default function Saved() {
