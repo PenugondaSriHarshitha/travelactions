@@ -22,6 +22,23 @@ import shadowUrl from "leaflet/dist/images/marker-shadow.png";
 L.Icon.Default.mergeOptions({ iconRetinaUrl, iconUrl, shadowUrl });
 
 /* ---------- helpers ---------- */
+// ---------------- Backend URL Resolver ----------------
+function getBackendURL() {
+  const port = window.location.port;
+
+  // ⭐ Kubernetes frontend → backend
+  if (port === "32000") return "http://localhost:32001";
+
+  // ⭐ Docker frontend → backend
+  if (port === "3000") return "http://localhost:8084";
+
+  // ⭐ Vite development (5173)
+  return import.meta.env.VITE_BACKEND_URL || "http://localhost:8084";
+}
+
+const API_BASE = getBackendURL();
+// -------------------------------------------------------
+
 
 // reliable random image (no API keys, always returns)
 const getRandomImage = (title = "travel") =>
@@ -135,8 +152,8 @@ export default function Trips() {
 
   // load from backend and merge with builtin
   useEffect(() => {
-   const API = import.meta.env.VITE_BACKEND_URL;
-fetch(`${API}/trip/all`)
+   fetch(`${API_BASE}/trip/all`)
+
 
       .then((res) => res.json())
       .then((data) => {
