@@ -4,7 +4,21 @@ import { useLocation, useNavigate } from "react-router-dom";
 import "./SubscribeModal.css";
 import { motion } from "framer-motion";
 
-const API_BASE = import.meta.env.VITE_BACKEND_URL;
+function getBackendURL() {
+  const port = window.location.port;
+
+  // ⭐ Kubernetes frontend → backend
+  if (port === "32000") return "http://localhost:32001";
+
+  // ⭐ Docker frontend → backend
+  if (port === "3000") return "http://localhost:8084";
+
+  // ⭐ Local Vite
+  return import.meta.env.VITE_BACKEND_URL || "http://localhost:8084";
+}
+
+const API_BASE = getBackendURL();
+
 
 
 
