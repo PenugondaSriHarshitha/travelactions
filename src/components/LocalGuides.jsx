@@ -2,7 +2,9 @@
 import React, { useState, useMemo, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import "./LocalGuides.css";
-const API_BASE = "http://localhost:8084/api/guides";
+const API_BASE = `${import.meta.env.VITE_BACKEND_URL}/api/guides`;
+
+
 
 /**
  * Full LocalGuides component
