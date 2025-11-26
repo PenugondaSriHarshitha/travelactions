@@ -15,7 +15,21 @@ import packageImg from "../images/package.png";
 import stayImg from "../images/stay.png";
 import defaultThumb from "../images/default-thumb.png";
 
-const BACKEND_BASE = import.meta.env.VITE_BACKEND_URL;
+function getBackendURL() {
+  const port = window.location.port;
+
+  // ⭐ Kubernetes frontend → backend
+  if (port === "32000") return "http://localhost:32001";
+
+  // ⭐ Docker frontend → backend
+  if (port === "3000") return "http://localhost:8084";
+
+  // ⭐ Vite development (5173)
+  return import.meta.env.VITE_BACKEND_URL || "http://localhost:8084";
+}
+
+const BACKEND_BASE = getBackendURL();
+
 
 
 const DEFAULT_CARD_EXAMPLES = [
