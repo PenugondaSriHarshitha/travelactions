@@ -174,14 +174,15 @@ export default function App() {
       {/* ============================
           SIGNUP MODAL
       ============================ */}
-      {typeof Signup === "function" ? (
+      {showSignup && (
         <Signup
-          open={showSignup}
+          open={true}
           onClose={() => setShowSignup(false)}
           onSubmit={handleSignupSubmit}
-          defaultMode="signup"
+          defaultMode="login"   // start with login
         />
-      ) : null}
+      )}
+
     </>
   );
 }
