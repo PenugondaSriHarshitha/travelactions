@@ -4,6 +4,7 @@ import react from '@vitejs/plugin-react'
 export default defineConfig({
   plugins: [react()],
   server: {
-    port: 5173, // you can change this if needed
+    port: 5173,
   },
+  base: "/travelactions/",   // ✅ VERY IMPORTANT for GitHub Pages
 })
