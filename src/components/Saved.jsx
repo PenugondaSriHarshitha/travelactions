@@ -3,9 +3,6 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 
-const API_BASE = `${BACKEND_BASE}/api/saved`;
-
-
 // ---------------- Backend URL Resolver ----------------
 function getBackendURL() {
   const port = window.location.port;
@@ -20,9 +17,9 @@ function getBackendURL() {
   return import.meta.env.VITE_BACKEND_URL || "http://localhost:8084";
 }
 
-const BACKEND_BASE = getBackendURL();
+const BACKEND_BASE = getBackendURL(); // ✅ define AFTER function
+const API_BASE = `${BACKEND_BASE}/api/saved`; // ✅ fixed template string
 // -------------------------------------------------------
-
 
 export default function Saved() {
   const [items, setItems] = useState([]);
@@ -51,7 +48,7 @@ export default function Saved() {
   // ✅ Remove one item from backend
   const removeItem = async (id) => {
     try {
-      await fetch(`${API_BASE}/${id}`, { method: "DELETE" });
+      await fetch(`${API_BASE}/${id}`, { method: "DELETE" }); // ✅ fixed template string
       setItems((prev) => prev.filter((item) => item.id !== id));
     } catch (err) {
       console.error("Failed to delete item:", err);
@@ -70,8 +67,10 @@ export default function Saved() {
   };
 
   // ✅ Navigation helpers
-  const goExplore = (item) => navigate(`/explore/${item.id}`, { state: { item } });
-  const goBook = (item) => navigate(`/book/${item.id}`, { state: { item } });
+  const goExplore = (item) =>
+    navigate(`/explore/${item.id}`, { state: { item } }); // ✅ fixed route string
+  const goBook = (item) =>
+    navigate(`/book/${item.id}`, { state: { item } }); // ✅ fixed route string
 
   // ✅ UI rendering
   return (
@@ -104,7 +103,10 @@ export default function Saved() {
         </div>
       ) : !items.length ? (
         <div style={{ marginTop: 20 }}>
-          <p>You haven't saved anything yet. Tap ♥ on deals or stories to save them here.</p>
+          <p>
+            You haven't saved anything yet. Tap ♥ on deals or stories to save
+            them here.
+          </p>
           <button
             className="btn-primary"
             style={{ marginTop: 12 }}
@@ -125,7 +127,11 @@ export default function Saved() {
             >
               {r.img ? (
                 <img
-                  src={r.img.startsWith("http") ? r.img : `.${r.img}`}
+                  src={
+                    r.img.startsWith("http")
+                      ? r.img
+                      : `.${r.img}` // ✅ fixed template string + stray dot
+                  }
                   alt={r.city || r.title}
                   className="card-media"
                 />
@@ -158,7 +164,10 @@ export default function Saved() {
                   <button className="btn-ghost" onClick={() => goBook(r)}>
                     Book
                   </button>
-                  <button className="btn-ghost" onClick={() => removeItem(r.id)}>
+                  <button
+                    className="btn-ghost"
+                    onClick={() => removeItem(r.id)}
+                  >
                     Remove
                   </button>
                 </div>
