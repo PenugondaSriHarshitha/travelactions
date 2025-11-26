@@ -135,7 +135,9 @@ export default function Trips() {
 
   // load from backend and merge with builtin
   useEffect(() => {
-    fetch("http://localhost:8084/trip/all")
+   const API = import.meta.env.VITE_BACKEND_URL;
+fetch(`${API}/trip/all`)
+
       .then((res) => res.json())
       .then((data) => {
         const safe = Array.isArray(data) ? data.map(normalizeTrip) : [];
