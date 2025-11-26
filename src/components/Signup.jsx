@@ -4,7 +4,21 @@ import ReactDOM from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import "./Signup.css";
 
-const BASE_URL = import.meta.env.VITE_BACKEND_URL;
+function getBackendURL() {
+  const port = window.location.port;
+
+  // ⭐ Kubernetes frontend → backend 
+  if (port === "32000") return "http://localhost:32001";
+
+  // ⭐ Docker frontend → backend
+  if (port === "3000") return "http://localhost:8084";
+
+  // ⭐ Vite development
+  return import.meta.env.VITE_BACKEND_URL || "http://localhost:8084";
+}
+
+const BASE_URL = getBackendURL();
+
 
 
 export default function Signup({ open, onClose, defaultMode = "signup", onSuccess }) {
