@@ -4,7 +4,8 @@ import ReactDOM from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import "./Signup.css";
 
-const BASE_URL = "http://localhost:8084";
+const BASE_URL = import.meta.env.VITE_BACKEND_URL;
+
 
 export default function Signup({ open, onClose, defaultMode = "signup", onSuccess }) {
   const [mode, setMode] = useState(defaultMode);
